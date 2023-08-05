@@ -30,7 +30,7 @@ namespace MicroServices.Catalog.Services.CategoryServices
 
         public async Task<Response<NoContent>> DeleteCategoryAsync(string id)
         {
-            var value = await _categoryCollection.DeleteOneAsync(id);
+            var value = await _categoryCollection.DeleteOneAsync(x => x.CategoryID == id);
 
             if (value.DeletedCount > 0)
             {
@@ -57,6 +57,7 @@ namespace MicroServices.Catalog.Services.CategoryServices
 
         public async Task<Response<List<ResultCategoryDto>>> GetCategoryListAsync()
         {
+
             var values = await _categoryCollection.Find(x => true).ToListAsync();
             return Response<List<ResultCategoryDto>>.Success(_mapper.Map<List<ResultCategoryDto>>(values), 200);
         }
